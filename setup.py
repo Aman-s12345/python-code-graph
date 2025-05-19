@@ -6,7 +6,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name="python-code-graph",
-    version="0.1.0",
+    version="0.1.1",
     author="Aman Singh",
     author_email="amansinghbiuri@gmail.com",
     description="Generate code graphs for Python projects",
