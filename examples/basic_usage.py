@@ -9,9 +9,9 @@ from python_code_graph import create_code_graph
 def main():
     # Generate a code graph for a project
     code_graph = create_code_graph(
-        directory_path="./my_project",
+        directory_path="../test_project",
         output_json_path="my_project_graph.json",
-        concurrency=4,
+        concurrency=1,
         debug=True
     )
     

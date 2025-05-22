@@ -59,7 +59,7 @@ class FileProcessor:
         
     def process_files(self, file_paths: List[str]) -> List[Dict[str, Any]]:
         """
-        Process multiple Python files in parallel.
+        Process multiple Python files in parallel or sequentially based on concurrency setting.
         
         Args:
             file_paths: List of file paths to process
@@ -67,34 +67,57 @@ class FileProcessor:
         Returns:
             List of file analysis results
         """
-        logger.info(f"Processing {len(file_paths)} files with {self.concurrency} workers")
         
-        # Create processing queue
-        queue = FileProcessingQueue(
-            num_workers=self.concurrency,
-            cache_dir=self.cache_dir,
-            use_cache=self.use_cache
-        )
-        queue.start()
+        # Use sequential processing if concurrency is 1
+        if self.concurrency == 1:
+            logger.info(f"Processing {len(file_paths)} files sequentially (concurrency=1)")
+            results = []
+            for file_path in file_paths:
+                try:
+                    result = self.process_file(file_path)
+                    results.append(result)
+                except Exception as e:
+                    logger.error(f"Error processing {file_path}: {e}")
+                    results.append({
+                        'file_path': file_path,
+                        'error': str(e),
+                        'functions': [],
+                        'imports': [],
+                        'exports': [],
+                        'variables': []
+                    })
+            return results
         
-        # Add file processing tasks
-        for file_path in file_paths:
-            file_hash = None
-            if self.use_cache:
-                file_hash = compute_file_hash(file_path)
-                
-            queue.add_file_task(
-                file_path=file_path,
-                processor_func=self._process_file_task,
-                file_hash=file_hash
-            )
+        # Use parallel processing for concurrency > 1
+        else:
+            logger.info(f"Processing {len(file_paths)} files with {self.concurrency} workers")
             
-        # Wait for completion
-        results = queue.wait_completion()
-        queue.stop()
-        
-        logger.info(f"Completed processing {len(results)} files")
-        return results
+            # Create processing queue
+            queue = FileProcessingQueue(
+                num_workers=self.concurrency,
+                cache_dir=self.cache_dir,
+                use_cache=self.use_cache
+            )
+            queue.start()
+            
+            # Add file processing tasks
+            for file_path in file_paths:
+                file_hash = None
+                if self.use_cache:
+                    file_hash = compute_file_hash(file_path)
+                    
+                queue.add_file_task(
+                    file_path=file_path,
+                    processor_func=self._process_file_task,
+                    file_hash=file_hash
+                )
+                
+            # Wait for completion
+            results = queue.wait_completion()
+            queue.stop()
+            
+            logger.info(f"Completed processing {len(results)} files")
+            return results
         
     def _process_file_task(self, file_path: str, content: str) -> Dict[str, Any]:
         """Process a file in a worker thread."""

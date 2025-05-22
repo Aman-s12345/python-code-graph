@@ -1,0 +1,243 @@
+{
+  "name": "test_project",
+  "packages": [
+    {
+      "name": ".",
+      "files": [
+        {
+          "path": "index.py",
+          "types": [],
+          "variables": [
+            {
+              "name": "aman",
+              "type": "str",
+              "dependencies": []
+            },
+            {
+              "name": "app",
+              "type": "App",
+              "dependencies": [
+                {
+                  "App": "module"
+                }
+              ]
+            }
+          ],
+          "functions": [
+            {
+              "name": "root",
+              "referencedIn": [],
+              "fileName": "index.py",
+              "startLine": 1,
+              "length": 10,
+              "dependencies": [
+                {
+                  "src.app": "module"
+                }
+              ],
+              "types": [],
+              "callsTo": [],
+              "calledBy": []
+            },
+            {
+              "name": "main",
+              "referencedIn": [
+                "index.py"
+              ],
+              "fileName": "index.py",
+              "startLine": 5,
+              "length": 3,
+              "dependencies": [],
+              "types": [],
+              "callsTo": [
+                "App",
+                "run"
+              ]
+            }
+          ],
+          "dependencies": [
+            "src.app"
+          ],
+          "exports": [
+            "main"
+          ],
+          "detailedDependencies": [
+            {
+              "module": "src.app",
+              "imports": [
+                "App"
+              ]
+            }
+          ]
+        }
+      ],
+      "dependencies": [],
+      "exports": [
+        "main"
+      ]
+    },
+    {
+      "name": "src",
+      "files": [
+        {
+          "path": "src/utils.py",
+          "types": [],
+          "variables": [],
+          "functions": [
+            {
+              "name": "root",
+              "referencedIn": [],
+              "fileName": "utils.py",
+              "startLine": 1,
+              "length": 7,
+              "dependencies": [],
+              "types": [],
+              "callsTo": [],
+              "calledBy": []
+            },
+            {
+              "name": "getInitialMessage",
+              "referencedIn": [
+                "src/utils.py"
+              ],
+              "fileName": "utils.py",
+              "startLine": 3,
+              "length": 2,
+              "dependencies": [],
+              "types": [],
+              "callsTo": []
+            },
+            {
+              "name": "getUpdatedMessage",
+              "referencedIn": [
+                "src/utils.py"
+              ],
+              "fileName": "utils.py",
+              "startLine": 6,
+              "length": 2,
+              "dependencies": [],
+              "types": [],
+              "callsTo": []
+            }
+          ],
+          "dependencies": [],
+          "exports": [
+            "getInitialMessage",
+            "getUpdatedMessage"
+          ],
+          "detailedDependencies": []
+        },
+        {
+          "path": "src/App.py",
+          "types": [
+            {
+              "name": "App",
+              "file": "src/App.py",
+              "properties": []
+            }
+          ],
+          "variables": [],
+          "functions": [
+            {
+              "name": "root",
+              "referencedIn": [],
+              "fileName": "App.py",
+              "startLine": 1,
+              "length": 26,
+              "dependencies": [
+                {
+                  "src.utils": "module"
+                }
+              ],
+              "types": [],
+              "callsTo": [],
+              "calledBy": []
+            },
+            {
+              "name": "__init__",
+              "referencedIn": [
+                "src/App.py"
+              ],
+              "fileName": "App.py",
+              "startLine": 6,
+              "length": 3,
+              "dependencies": [],
+              "types": [],
+              "callsTo": [
+                "getInitialMessage"
+              ]
+            },
+            {
+              "name": "handleClick",
+              "referencedIn": [
+                "src/App.py"
+              ],
+              "fileName": "App.py",
+              "startLine": 10,
+              "length": 3,
+              "dependencies": [],
+              "types": [],
+              "callsTo": [
+                "getUpdatedMessage"
+              ]
+            },
+            {
+              "name": "render",
+              "referencedIn": [
+                "src/App.py"
+              ],
+              "fileName": "App.py",
+              "startLine": 14,
+              "length": 5,
+              "dependencies": [],
+              "types": [],
+              "callsTo": [
+                "print",
+                "print",
+                "print"
+              ]
+            },
+            {
+              "name": "run",
+              "referencedIn": [
+                "src/App.py"
+              ],
+              "fileName": "App.py",
+              "startLine": 20,
+              "length": 7,
+              "dependencies": [],
+              "types": [],
+              "callsTo": [
+                "render",
+                "input",
+                "handleClick",
+                "render"
+              ]
+            }
+          ],
+          "dependencies": [
+            "src.utils"
+          ],
+          "exports": [
+            "App"
+          ],
+          "detailedDependencies": [
+            {
+              "module": "src.utils",
+              "imports": [
+                "getInitialMessage",
+                "getUpdatedMessage"
+              ]
+            }
+          ]
+        }
+      ],
+      "dependencies": [],
+      "exports": [
+        "getUpdatedMessage",
+        "getInitialMessage",
+        "App"
+      ]
+    }
+  ]
+}
